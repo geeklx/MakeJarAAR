@@ -2,7 +2,10 @@ package com.example.shining.makejaraar;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 
+import com.example.myshininglibrary.glide.GlideOptions;
+import com.example.myshininglibrary.glide.GlideUtil;
 import com.example.myshininglibrary.glin.Callback;
 import com.example.myshininglibrary.glin.Result;
 import com.example.myshininglibrary.glinsample.net.Net;
@@ -11,8 +14,8 @@ import com.example.shining.makejaraar.domain.DemoModel;
 import com.example.shining.makejaraar.domain.DemoModel_item;
 import com.example.shining.makejaraar.domain.DemoModel_list;
 import com.example.shining.makejaraar.params.DemoParams;
-import com.example.shining.makejaraar.utils.glinutils.ParamsUtils;
 import com.example.shining.makejaraar.utils.ToastUtil;
+import com.example.shining.makejaraar.utils.glinutils.ParamsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +26,16 @@ public class MainActivity extends AppCompatActivity {
     private DemoModel demoModel;
     private DemoModel_item demoModel_item;
     private List<DemoModel_list> demoModel_list;
+    private ImageView iv1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        iv1 = (ImageView) findViewById(R.id.iv1);
+        GlideOptions glideOptions = new GlideOptions(R.drawable.pic_head, R.drawable.pic_head, 300);
+        GlideUtil.display(MainActivity.this, iv1, "http://img0.bdstatic.com/img/image/touxiang01.jpg", glideOptions);
+//        GlideUtil.display(MainActivity.this, iv1, "http://img0.bdstatic.com/img/image/touxiang01.jpg", GlideOptionsFactory.get(GlideOptionsFactory.Type.RADIUS));
         doNewWork("id");
     }
 

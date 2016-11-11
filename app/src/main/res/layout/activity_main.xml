@@ -26,4 +26,9 @@
 
     </com.example.shining.makejaraar.utils.MustTextView>
 
+    <ImageView
+        android:id="@+id/iv1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pic_head" />
 </LinearLayout>
