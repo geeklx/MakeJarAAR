@@ -1,4 +1,4 @@
-package com.example.shining.makejaraar.utils;
+package com.example.shining.makejaraar.utils.textutils;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -20,6 +20,7 @@
         <com.example.shining.makejaraar.utils.textutils.MustTextView
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:background="@color/colorPrimary"
             app:tv_color="@color/colorAccent"
             app:tv_content="测试"
             app:tv_size="20sp">

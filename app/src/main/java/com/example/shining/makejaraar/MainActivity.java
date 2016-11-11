@@ -14,8 +14,9 @@ import com.example.shining.makejaraar.domain.DemoModel;
 import com.example.shining.makejaraar.domain.DemoModel_item;
 import com.example.shining.makejaraar.domain.DemoModel_list;
 import com.example.shining.makejaraar.params.DemoParams;
-import com.example.shining.makejaraar.utils.ToastUtil;
 import com.example.shining.makejaraar.utils.glinutils.ParamsUtils;
+import com.example.shining.makejaraar.utils.loadingutils.MaterialProgressLoadingUtil;
+import com.example.shining.makejaraar.utils.toastutils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doNewWork(String user_id) {
+        MaterialProgressLoadingUtil.showProgressDialog(this, "加载中....");
         DemoParams p = new DemoParams(user_id);
         Net.build(DemoApi.class, getClass().getName()).getDemoModel(ParamsUtils.just(p)).enqueue(new Callback<DemoModel>() {
             @Override
@@ -61,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     //无网状态
-                    ToastUtil.showToastCenter("无网状态 请重新请求服务器！");
+//                    ToastUtil.showToastCenter("无网状态 请重新请求服务器！");
                 }
+//                MaterialProgressLoadingUtil.dismissProgressDialog();
             }
         });
     }

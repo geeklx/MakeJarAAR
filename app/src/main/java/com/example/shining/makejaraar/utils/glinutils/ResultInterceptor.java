@@ -106,7 +106,7 @@ public class ResultInterceptor implements IResultInterceptor {
 //        p.getFridgeIDFamilyID(ParamsUtils.just(getFridgeIDFamilyID)).enqueue(new Callback<InitFridge>() {
 //            @Override
 //            public void onResponse(Result<InitFridge> result) {
-////                ShowLoadingUtil.dismissProgressDialog2();
+////                SimpleLoadingUtil.dismissProgressDialog2();
 //                if (result.isOK()) {
 //                    SpUtils.getInstance(DemoApplication.get()).put(ConstantUtil.FAMILY_ID, result.getResult().getFamily_id());
 //                    DataProvider.setFamily_id(result.getResult().getFamily_id());

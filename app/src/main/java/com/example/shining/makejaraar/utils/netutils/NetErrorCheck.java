@@ -1,8 +1,9 @@
-package com.example.shining.makejaraar.utils;
+package com.example.shining.makejaraar.utils.netutils;
 
 
 import com.example.myshininglibrary.utilslib.data.StringUtil;
 import com.example.shining.makejaraar.R;
+import com.example.shining.makejaraar.utils.toastutils.ToastUtil;
 
 /**
  * Created by geek on 2016/7/21.

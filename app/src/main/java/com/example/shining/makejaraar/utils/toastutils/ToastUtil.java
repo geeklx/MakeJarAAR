@@ -1,4 +1,4 @@
-package com.example.shining.makejaraar.utils;
+package com.example.shining.makejaraar.utils.toastutils;
 
 import android.os.CountDownTimer;
 import android.view.Gravity;
@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 
 import com.example.shining.makejaraar.application.DemoApplication;
+import com.example.shining.makejaraar.utils.netutils.NetErrorCheck;
 
 import java.lang.reflect.Field;
 
