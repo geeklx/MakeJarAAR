@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <declare-styleable name="MustTextView">
+        <attr name="tv_size" format="dimension"/>
+        <attr name="tv_color" format="reference|color"/>
+        <attr name="symbol_color" format="reference|color"/>
+        <attr name="symbol_size" format="dimension"/>
+        <attr name="drawPadding" format="dimension"/>
+        <attr name="tv_content" format="string"/>
+    </declare-styleable>
+
+</resources>
