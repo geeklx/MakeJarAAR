@@ -7,4 +7,27 @@
     <color name="white">#ffffff</color>
     <color name="green_8BC638">#8BC638</color>
     <color name="blue_62abf2">#62abf2</color>
+
+    <color name="pop_my_sure">#e3e1dd</color>
+
+    <color name="orange_red">#FFA000</color>
+    <color name="orange_red_press">#88FFA000</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="transparent_half">#aa000000</color>
+    <color name="transparent_half_half">#66000000</color>
+    <color name="transparent_half_half_half">#80000000</color>
+    <color name="transparent_half_half_half_half">#80ffffff</color>
+    <color name="transparent_half_half_half_half_half">#CCFFFFFF</color>
+
+    <color name="gray55555D">#55555D</color>
+    <color name="grayDCDCDC">#DCDCDC</color>
+    <color name="gray626262">#626262</color>
+    <color name="gray818181">#818181</color>
+    <color name="gray999999">#999999</color>
+
+    <color name="black333333">#333333</color>
+
+    <color name="whiteffffffff">#ffffffff</color>
+
 </resources>

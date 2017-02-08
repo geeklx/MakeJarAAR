@@ -1,8 +1,5 @@
 package com.example.myshininglibrary.glin.call;
 
-//import org.loader.glin.Callback;
-//import org.loader.glin.Params;
-//import org.loader.glin.client.IClient;
 
 import com.example.myshininglibrary.glin.Callback;
 import com.example.myshininglibrary.glin.Params;
@@ -19,17 +16,24 @@ public abstract class Call<T> {
     protected Params mParams;
     protected IClient mClient;
     protected Object mTag;
+    protected boolean shouldCache;
     protected LinkedHashMap<String, String> mHeaders;
 
-    public Call(IClient client, String url, Params params, Object tag) {
+    public Call(IClient client, String url, Params params, Object tag, boolean cache) {
         mClient = client;
         mUrl = url;
         mParams = params;
         mTag = tag;
+        shouldCache = cache;
     }
 
     public Call<T> header(LinkedHashMap<String, String> headers) {
         mHeaders = headers;
+        return this;
+    }
+
+    public Call<T> shouldCache(boolean cache) {
+        shouldCache = cache;
         return this;
     }
 

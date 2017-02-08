@@ -1,7 +1,5 @@
 package com.example.myshininglibrary.glin;
 
-//import org.loader.glin.*;
-import com.example.myshininglibrary.glin.*;
 /**
  * Created by qibin on 2016/7/13.
  */

@@ -5,27 +5,15 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
-//import org.loader.glin.Callback;
-//import org.loader.glin.NetResult;
-//import org.loader.glin.Params;
-//import org.loader.glin.Result;
-//import org.loader.glin.client.IClient;
-//import org.loader.glin.factory.ParserFactory;
-//import org.loader.glin.helper.Helper;
-//import org.loader.glin.interceptor.IResultInterceptor;
-//import org.loader.glin.parser.Parser;
-
 import com.example.myshininglibrary.glin.Callback;
 import com.example.myshininglibrary.glin.NetResult;
 import com.example.myshininglibrary.glin.Params;
 import com.example.myshininglibrary.glin.Result;
+import com.example.myshininglibrary.glin.cache.ICacheProvider;
 import com.example.myshininglibrary.glin.client.IClient;
 import com.example.myshininglibrary.glin.factory.ParserFactory;
 import com.example.myshininglibrary.glin.helper.Helper;
 import com.example.myshininglibrary.glin.interceptor.IResultInterceptor;
-import com.example.myshininglibrary.glin.parser.Parser;
-
-
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +54,7 @@ public class OkClient implements IClient {
     private Handler mHandler;
     private ParserFactory mParserFactory;
     private IResultInterceptor mResultInterceptor;
+    private ICacheProvider mCacheProvider;
 
     private long mTimeOut = DEFAULT_TIME_OUT;
     private boolean isDebug;
@@ -108,47 +97,47 @@ public class OkClient implements IClient {
         return builder.build();
     }
 
-    @Override
-    public <T> void get(String url, final LinkedHashMap<String, String> header, Object tag, Callback<T> callback) {
+    public <T> void get(String url, final LinkedHashMap<String, String> header,
+                        Object tag, boolean shouldCache, Callback<T> callback) {
         final Request request = new Request.Builder().url(url).build();
-        call(request,header, callback, tag, new StringBuilder());
+        call(request, header, null, callback, tag, shouldCache, new StringBuilder());
     }
 
-    @Override
-    public <T> void post(String url, final LinkedHashMap<String, String> header, Params params, Object tag, Callback<T> callback) {
+    public <T> void post(String url, final LinkedHashMap<String, String> header,
+                         Params params, Object tag, boolean shouldCache, Callback<T> callback) {
         StringBuilder debugInfo = new StringBuilder();
         MultipartBody builder = createRequestBody(params, debugInfo);
         Request request = new Request.Builder().url(url).post(builder).build();
-        call(request,header, callback, tag, debugInfo);
+        call(request, header, params.encode(), callback, tag, shouldCache, debugInfo);
     }
 
-    @Override
-    public <T> void post(String url, final LinkedHashMap<String, String> header, String json, Object tag, final Callback<T> callback) {
+    public <T> void post(String url, final LinkedHashMap<String, String> header,
+                         String json, Object tag, boolean shouldCache, final Callback<T> callback) {
         StringBuilder debugInfo = new StringBuilder();
         Request request = new Request.Builder().url(url).post(createJsonBody(json, debugInfo)).build();
-        call(request,header, callback, tag, debugInfo);
+        call(request, header, json, callback, tag, shouldCache, debugInfo);
     }
 
-    @Override
-    public <T> void put(String url, final LinkedHashMap<String, String> header, Params params, Object tag, Callback<T> callback) {
+    public <T> void put(String url, final LinkedHashMap<String, String> header,
+                        Params params, Object tag, boolean shouldCache, Callback<T> callback) {
         StringBuilder debugInfo = new StringBuilder();
         MultipartBody builder = createRequestBody(params, debugInfo);
         Request request = new Request.Builder().url(url).put(builder).build();
-        call(request,header, callback, tag, debugInfo);
+        call(request, header, params.encode(), callback, tag, shouldCache, debugInfo);
     }
 
-    @Override
-    public <T> void put(String url, final LinkedHashMap<String, String> header, String json, Object tag, Callback<T> callback) {
+    public <T> void put(String url, final LinkedHashMap<String, String> header,
+                        String json, Object tag, boolean shouldCache, Callback<T> callback) {
         StringBuilder debugInfo = new StringBuilder();
         Request request = new Request.Builder().url(url).put(createJsonBody(json, debugInfo)).build();
-        call(request,header, callback, tag, debugInfo);
+        call(request, header, json, callback, tag, shouldCache, debugInfo);
     }
 
-    @Override
-    public <T> void delete(String url, final LinkedHashMap<String, String> header, Object tag, Callback<T> callback) {
+    public <T> void delete(String url, final LinkedHashMap<String, String> header,
+                           Object tag, boolean shouldCache, Callback<T> callback) {
         StringBuilder debugInfo = new StringBuilder();
         final Request request = new Request.Builder().url(url).delete().build();
-        call(request,header, callback, tag, debugInfo);
+        call(request, header, null, callback, tag, shouldCache, debugInfo);
     }
 
     @Override
@@ -166,37 +155,34 @@ public class OkClient implements IClient {
         }
     }
 
-    @Override
-    public LinkedHashMap<String, String> headers() {
-        return null;
-    }
-
-    @Override
-    public void parserFactory(ParserFactory factory) {
-        mParserFactory = factory;
-    }
-
-    @Override
-    public void timeout(long ms) {
-        mTimeOut = ms;
-    }
-
-    @Override
-    public void debugMode(boolean debug) {
-        isDebug = debug;
-    }
-
-    private OkHttpClient cloneClient() {
-        return mClient.newBuilder()
-                .connectTimeout(mTimeOut, TimeUnit.MILLISECONDS)
-//                .readTimeout(mTimeOut, TimeUnit.MILLISECONDS)
-//                .writeTimeout(mTimeOut, TimeUnit.MILLISECONDS)
-                .build();
-    }
-
+    @SuppressWarnings("unchecked")
     private <T> void call(Request request, final LinkedHashMap<String, String> header,
-                          final Callback<T> callback,
-                          final Object tag, StringBuilder debugInfo) {
+                          final String params, final Callback<T> callback, final Object tag,
+                          final boolean shouldCache, StringBuilder debugInfo) {
+        final String cacheKey = mCacheProvider == null ? null :
+                mCacheProvider.getKey(request.url().toString(), params);
+
+        final Class<?> callbackKlass = callback.getClass();
+        // data_struct.class or List.class
+        // Callback<List<String>>
+        final Class<T> dataKlass = Helper.getType(callbackKlass);
+        final boolean resultTypeIsArray = resultTypeIsArray(dataKlass);
+        if (shouldCache && mCacheProvider != null) {
+            // data struct or List.class
+            Result<T> result;
+            if (resultTypeIsArray) {
+                Class<T> klass = Helper.getDeepType(callbackKlass);
+                result = mCacheProvider.get(cacheKey, klass, true);
+            }else {
+                result = mCacheProvider.get(cacheKey, dataKlass, false);
+            }
+
+            if (result != null && result.isOK()) {
+                debugInfo.append("\nUseCache->").append(cacheKey).append("\n");
+                callback.onResponse(result);
+            }
+        }
+
         String info = debugInfo.toString();
         debugInfo.delete(0, debugInfo.length());
 
@@ -223,6 +209,7 @@ public class OkClient implements IClient {
                 prntInfo("Error->" + e.getMessage());
                 Result<T> result = new Result<>();
                 result.ok(false);
+                result.setCode(0);
                 result.setObj(0);
                 result.setMessage(MSG_ERROR_HTTP);
                 callback(call, callback, result);
@@ -234,17 +221,38 @@ public class OkClient implements IClient {
                     prntInfo("Response->" + response.code() + ":" + response.message());
                     Result<T> res = new Result<>();
                     res.ok(false);
+                    res.setCode(response.code());
                     res.setObj(response.code());
                     res.setMessage(MSG_ERROR_HTTP);
                     callback(call, callback, res);
                     return;
                 }
 
-                String resp = response.body().string();
+                String resp = "";
+                try {
+                    resp = response.body().string();
+                } catch (Exception e) {
+                    prntInfo("response.body->" + replaceBlank(e.getMessage()));
+                }
+
                 prntInfo("Response->" + replaceBlank(resp));
                 NetResult netResult = new NetResult(response.code(), response.message(), resp);
-                Result<T> res = (Result<T>) getParser(callback.getClass()).parse(callback.getClass(), netResult);
+
+                Result<T> res;
+                // if dataKlass == List.class
+                if (resultTypeIsArray) {
+                    // data_struct.class
+                    Class<T> klass = Helper.getDeepType(callbackKlass);
+                    res = mParserFactory.getListParser().parse(klass, netResult);
+                } else {
+                    res = mParserFactory.getParser().parse(dataKlass, netResult);
+                }
+
                 callback(call, callback, res);
+                if (shouldCache && mCacheProvider != null && res.isOK()) {
+                    prntInfo("CacheResult->" + cacheKey);
+                    mCacheProvider.put(cacheKey, netResult, res);
+                }
             }
         });
 
@@ -253,17 +261,15 @@ public class OkClient implements IClient {
             debugInfo.append("Header->").append(debugHeader).append("\n");
         }
         debugInfo.append("\n");
-
         debugInfo.append(info);
         prntInfo(debugInfo.toString());
     }
 
-    private <T> Parser getParser(Class<T> klass) {
-        Class<?> type = Helper.getType(klass);
-        if (List.class.isAssignableFrom(type)) {
-            return mParserFactory.getListParser();
+    private <T> boolean resultTypeIsArray(Class<T> dataKlass) {
+        if (List.class.isAssignableFrom(dataKlass)) {
+            return true;
         }
-        return mParserFactory.getParser();
+        return false;
     }
 
     private static String replaceBlank(String str) {
@@ -352,6 +358,39 @@ public class OkClient implements IClient {
     private Handler getHandler() {
         if(mHandler == null) { mHandler = new Handler(Looper.getMainLooper());}
         return mHandler;
+    }
+
+    @Override
+    public LinkedHashMap<String, String> headers() {
+        return null;
+    }
+
+    @Override
+    public void parserFactory(ParserFactory factory) {
+        mParserFactory = factory;
+    }
+
+    @Override
+    public void timeout(long ms) {
+        mTimeOut = ms;
+    }
+
+    @Override
+    public void debugMode(boolean debug) {
+        isDebug = debug;
+    }
+
+    @Override
+    public void cacheProvider(ICacheProvider provider) {
+        mCacheProvider = provider;
+    }
+
+    private OkHttpClient cloneClient() {
+        return mClient.newBuilder()
+                .connectTimeout(mTimeOut, TimeUnit.MILLISECONDS)
+//                .readTimeout(mTimeOut, TimeUnit.MILLISECONDS)
+//                .writeTimeout(mTimeOut, TimeUnit.MILLISECONDS)
+                .build();
     }
 
     @Override

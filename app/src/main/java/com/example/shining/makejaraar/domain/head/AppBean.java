@@ -1,13 +1,6 @@
 package com.example.shining.makejaraar.domain.head;
 
-//import com.haiersmart.sfnation.application.FridgeApplication;
-//import com.haiersmart.sfnation.constant.ConstantUtil;
-//import com.haiersmart.utilslib.data.ToStringUtil;
-//import com.haiersmart.utilslib.device.DeviceUtil;
-
 import com.example.myshininglibrary.utilslib.data.ToStringUtil;
-import com.example.myshininglibrary.utilslib.device.DeviceUtil;
-import com.example.shining.makejaraar.application.DemoApplication;
 
 import java.io.Serializable;
 
@@ -16,14 +9,14 @@ import java.io.Serializable;
  */
 public class AppBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String app_id = "";
+    private String app_id = "MB-HEZNBXQGB-0000";
     private String version;
-    private String user_id;
+    private String user_id="";
 
     public AppBean(String user_id) {
         //TODO 生成数据
         setApp_id(app_id);
-        setVersion(DeviceUtil.getVersionName(DemoApplication.get()));
+        setVersion("BXN_256_0135_0002");//DeviceUtil.getVersionName(DemoApplication.get())
         if(user_id!=null){
             this.user_id=user_id;
         }else{

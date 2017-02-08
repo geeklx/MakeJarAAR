@@ -1,4 +1,4 @@
-package com.example.myshininglibrary.glide.transformer;
+package com.example.myshininglibrary.glinsample.glide.transformer;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -3,16 +3,8 @@ package com.example.shining.makejaraar.domain.head;
 import android.content.Context;
 
 import com.example.myshininglibrary.utilslib.data.ToStringUtil;
-import com.example.myshininglibrary.utilslib.device.DeviceUtil;
-import com.example.shining.makejaraar.application.DemoApplication;
-import com.example.shining.makejaraar.constant.ConstantUtil;
 
 import java.io.Serializable;
-
-//import com.haiersmart.sfnation.application.FridgeApplication;
-//import com.haiersmart.sfnation.constant.ConstantUtil;
-//import com.haiersmart.utilslib.data.ToStringUtil;
-//import com.haiersmart.utilslib.device.DeviceUtil;
 
 /**
  * Created by jack_D on 2016/3/30.
@@ -31,19 +23,31 @@ public class DeviceBean implements Serializable {
     private double longitude;
 
     public DeviceBean(Context context) {
-        setPlatform(ConstantUtil.PLATFORM);
-        setModel(DeviceUtil.getModel());
-        setFactory(DeviceUtil.getFactory());
-        setScreen_size(DeviceUtil.SCREEN_WIDTH + "*" + DeviceUtil.SCREEN_HEIGHT);
-        setDenstiy("" + DeviceUtil.getDenstiy(DemoApplication.get()));
-//        setIMEI(DeviceUtil.getImei());
-//        setMac(DeviceUtil.getMac());
-
-        setImei(DeviceUtil.getImei(context));
-        setMac(DeviceUtil.getLocalMacAddress(context));
+        //demo
+        setPlatform("Fridge");
+        setModel("251UG2");
+        setFactory("alps");
+        setScreen_size("0*0");
+        setDenstiy("1.0");
+        setImei("NONE: 353744057777779");
+        setMac("78:64:e6:17:76:fd");
         setGprs("4G");
         setLatitude(39.981077D);
         setLongitude(116.497064);
+        //正式
+//        setPlatform(ConstantUtil.PLATFORM);
+//        setModel(DeviceUtil.getModel());
+//        setFactory(DeviceUtil.getFactory());
+//        setScreen_size(DeviceUtil.SCREEN_WIDTH + "*" + DeviceUtil.SCREEN_HEIGHT);
+//        setDenstiy("" + DeviceUtil.getDenstiy(DemoApplication.get()));
+////        setIMEI(DeviceUtil.getImei());
+////        setMac(DeviceUtil.getMac());
+//
+//        setImei(DeviceUtil.getImei(context));
+//        setMac(DeviceUtil.getLocalMacAddress(context));
+//        setGprs("4G");
+//        setLatitude(39.981077D);
+//        setLongitude(116.497064);
 
     }
 

@@ -33,18 +33,11 @@
  */
 package com.example.myshininglibrary.glin;
 
-//import org.loader.glin.Params;
-//import org.loader.glin.annotation.Arg;
-//import org.loader.glin.annotation.JSON;
-//import org.loader.glin.call.Call;
-//import org.loader.glin.client.IClient;
-//import org.loader.glin.factory.CallFactory;
-//import org.loader.glin.factory.ParserFactory;
-//import org.loader.glin.interceptor.IResultInterceptor;
 
-import com.example.myshininglibrary.glin.Params;
 import com.example.myshininglibrary.glin.annotation.Arg;
 import com.example.myshininglibrary.glin.annotation.JSON;
+import com.example.myshininglibrary.glin.annotation.ShouldCache;
+import com.example.myshininglibrary.glin.cache.ICacheProvider;
 import com.example.myshininglibrary.glin.call.Call;
 import com.example.myshininglibrary.glin.client.IClient;
 import com.example.myshininglibrary.glin.factory.CallFactory;
@@ -145,8 +138,11 @@ public class Glin {
                 throw new UnsupportedOperationException("cannot find calls");
             }
 
-            Constructor<? extends Call> constructor = callKlass.getConstructor(IClient.class, String.class, Params.class, Object.class);
-            Call<?> call = constructor.newInstance(mClient, justUrl(path), params(method, args), mTag);
+            boolean shouldCache = method.isAnnotationPresent(ShouldCache.class);
+            Constructor<? extends Call> constructor = callKlass.getConstructor(IClient.class, String.class,
+                    Params.class, Object.class, boolean.class);
+            Call<?> call = constructor.newInstance(mClient, justUrl(path),
+                    params(method, args), mTag, shouldCache);
             return call;
         }
 
@@ -211,6 +207,14 @@ public class Glin {
                 throw new UnsupportedOperationException("invoke client method first");
             }
             mClient.parserFactory(factory);
+            return this;
+        }
+
+        public Builder cacheProvider(ICacheProvider cacheProvider) {
+            if (mClient == null) {
+                throw new UnsupportedOperationException("invoke client method first");
+            }
+            mClient.cacheProvider(cacheProvider);
             return this;
         }
 

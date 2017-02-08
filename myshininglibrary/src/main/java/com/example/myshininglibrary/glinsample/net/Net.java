@@ -22,11 +22,11 @@ public class Net {
     private static Net sInstance;
     private Glin mGlin;
 
-    public static final void config(String url, IResultInterceptor resultInterceptor) {
-        sInstance = new Net(url, resultInterceptor);
+    public static final void config(String url, String cacheDir, IResultInterceptor resultInterceptor) {
+        sInstance = new Net(url, cacheDir, resultInterceptor);
     }
 
-    private Net(String url, IResultInterceptor resultInterceptor) {
+    private Net(String url, String cacheDir, IResultInterceptor resultInterceptor) {
         mGlin = new Glin.Builder()
                 .client(new OkClient())
                 .baseUrl(url)
@@ -34,6 +34,7 @@ public class Net {
                 .debug(true)
                 .parserFactory(new FastJsonParserFactory())
                 .resultInterceptor(resultInterceptor)
+                .cacheProvider(new JsonCacheProvider(cacheDir, 1024 * 1024))
                 .build();
     }
 

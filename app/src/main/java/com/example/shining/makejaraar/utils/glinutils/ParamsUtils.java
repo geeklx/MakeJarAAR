@@ -2,7 +2,7 @@ package com.example.shining.makejaraar.utils.glinutils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.shining.makejaraar.domain.head.DataProvider;
+import com.example.shining.makejaraar.domain.head.DataProvider_JIngtai;
 
 /**
  * Created by geek on 2016/7/19.
@@ -40,6 +40,6 @@ public class ParamsUtils {
 //        JSONObject info = new JSONObject();
 //        info.put("app", app());
 //        info.put("device", device());
-        return (JSONObject) JSON.toJSON(DataProvider.getVerifyInfo(data));
+        return (JSONObject) JSON.toJSON(DataProvider_JIngtai.getVerifyInfo(data));
     }
 }

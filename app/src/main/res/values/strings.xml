@@ -1,4 +1,21 @@
 <resources>
     <string name="app_name">MakeJarAAR</string>
     <string name="network_error">网络异常，请检查网络连接！</string>
+    <string name="loading">正在加载，请稍候....</string>
+
+    <string name="pop_login">登&#160;&#160;&#160;&#160;录</string>
+    <string name="pop_login_sendsuccess">发送成功</string>
+    <string name="pop_login_sjh">手机号</string>
+    <string name="pop_login_yzm">验证码</string>
+    <string name="pop_login_qsrndsjhm">请输入您的手机号码</string>
+    <string name="pop_login_qsrdxyzm">请输入短信验证码</string>
+    <string name="pop_login_hqyzm">获取验证码</string>
+    <string name="pop_login_qx">取消</string>
+    <string name="pop_login_qd">确定</string>
+    <string name="pop_login_success">登录成功！</string>
+
+    <string name="smssdk_receive_msg1"><Data>%s秒</Data></string>
+    <string name="smssdk_unreceive_identify_code1"><Data>重新获取</Data></string>
+
+
 </resources>

@@ -1,12 +1,12 @@
 package com.example.shining.makejaraar.domain.head;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.myshininglibrary.utilslib.data.MD5Util;
 import com.example.shining.makejaraar.constant.ConstantUtil;
-//import com.haiersmart.sfnation.constant.ConstantUtil;
-//import com.haiersmart.utilslib.data.MD5Util;
 
 import java.util.Date;
+
+//import com.haiersmart.sfnation.constant.ConstantUtil;
+//import com.haiersmart.utilslib.data.MD5Util;
 
 public class TokenCheckBean {
     private String access_token;
@@ -44,6 +44,7 @@ public class TokenCheckBean {
     public String getSequence_id() {
         return DataProvider.getSequence_id();
     }
+
     public String getSequence_id(long time) {
         return DataProvider.getSequence_id(time);
     }
@@ -73,24 +74,20 @@ public class TokenCheckBean {
     }
 
     public TokenCheckBean(JSONObject data) {
-
         long time = (new Date()).getTime();
-        this.access_token = DataProvider.getAccess_token();
-        String body=data.toString();
-        body=body.replaceAll("","");
-        body=body.replaceAll("\t","");
-        body=body.replaceAll("\r","");
-        body=body.replaceAll("\n","");
-
-        String  toSign = body+ ConstantUtil.APP_ID +ConstantUtil.APP_KEY+time;
+        String body = data.toString();
+        body = body.replaceAll("", "");
+        body = body.replaceAll("\t", "");
+        body = body.replaceAll("\r", "");
+        body = body.replaceAll("\n", "");
+        String toSign = body + ConstantUtil.APP_ID + ConstantUtil.APP_KEY + time;
         //TODO 生成sign
-        this.sign = MD5Util.getMD5String(toSign);
-        this.timestamp = time+"";
-        this.client_id = DataProvider.device.getMac();
-        this.sequence_id = getSequence_id(time);
+        this.sign = "0fd81567ed97aa396079acc7b18c865c";//MD5Util.getMD5String(toSign)
+        this.access_token = "";//DataProvider.getAccess_token()
+        this.timestamp = "1420129567535";//time+""
+        this.client_id = "78:64:e6:17:76:fd";//DataProvider.device.getMac()
+        this.sequence_id = "14201295675380000066";//getSequence_id(time)
         this.language = "zh-cn";
         this.timezone = "8";
-
-
     }
 }

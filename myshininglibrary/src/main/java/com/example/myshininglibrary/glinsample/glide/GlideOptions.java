@@ -1,4 +1,4 @@
-package com.example.myshininglibrary.glide;
+package com.example.myshininglibrary.glinsample.glide;
 
 /**
  * Created by qibin on 2016/7/28.

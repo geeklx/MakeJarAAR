@@ -1,16 +1,5 @@
 package com.example.myshininglibrary.glin.factory;
 
-//import org.loader.glin.annotation.DEL;
-//import org.loader.glin.annotation.GET;
-//import org.loader.glin.annotation.JSON;
-//import org.loader.glin.annotation.POST;
-//import org.loader.glin.annotation.PUT;
-//import org.loader.glin.call.Call;
-//import org.loader.glin.call.DelCall;
-//import org.loader.glin.call.GetCall;
-//import org.loader.glin.call.JsonCall;
-//import org.loader.glin.call.PostCall;
-//import org.loader.glin.call.PutCall;
 
 import com.example.myshininglibrary.glin.annotation.DEL;
 import com.example.myshininglibrary.glin.annotation.GET;

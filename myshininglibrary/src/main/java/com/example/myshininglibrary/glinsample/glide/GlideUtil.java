@@ -1,4 +1,4 @@
-package com.example.myshininglibrary.glide;
+package com.example.myshininglibrary.glinsample.glide;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

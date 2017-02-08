@@ -37,5 +37,33 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+    <!--login-->
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/zoom_out</item>
+    </style>
+    <style name="font_key_text_style_pop_login">
+        <item name="android:textSize">@dimen/text_size_24</item>
+        <item name="android:textColor">@color/black333333</item>
+    </style>
+    <style name="pop_login_edittext" parent="@style/small_text_gray">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/y80</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginLeft">@dimen/x16</item>
+        <item name="android:layout_marginRight">@dimen/x16</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColorHint">@color/gray818181</item>
+    </style>
+    <style name="common_small_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="small_text_gray" parent="@style/common_small_text">
+        <item name="android:textColor">@color/gray626262</item>
+    </style>
 
 </resources>

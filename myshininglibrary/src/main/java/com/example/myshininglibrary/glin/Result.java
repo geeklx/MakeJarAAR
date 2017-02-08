@@ -8,7 +8,9 @@ public class Result<T> {
     private boolean ok;
     private String message;
     private T result;
+    private int code;
     private Object obj;
+    private boolean isCache;
 
     public boolean isOK() {
         return ok;
@@ -34,12 +36,12 @@ public class Result<T> {
         this.result = mResult;
     }
 
-    public boolean isOk() {
-        return ok;
+    public int getCode() {
+        return code;
     }
 
-    public void setOk(boolean ok) {
-        this.ok = ok;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public Object getObj() {
@@ -54,13 +56,23 @@ public class Result<T> {
         return (V) getObj();
     }
 
+    public boolean isCache() {
+        return isCache;
+    }
+
+    public void setCache(boolean cache) {
+        isCache = cache;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("ok: ").append(ok).append("\n");
         sb.append("message: ").append(message).append("\n");
         sb.append("obj: ").append(obj).append("\n");
-        sb.append("result: ").append(result);
+        sb.append("result: ").append(result).append("\n");
+        sb.append("code: ").append(code).append("\n");
+        sb.append("is_cache: ").append(isCache);
 
         return sb.toString();
     }

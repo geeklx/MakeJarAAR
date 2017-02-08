@@ -1,11 +1,9 @@
 package com.example.myshininglibrary.glinsample.parser;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.myshininglibrary.glin.NetResult;
 import com.example.myshininglibrary.glin.Result;
-import com.example.myshininglibrary.glin.helper.Helper;
 import com.example.myshininglibrary.glin.parser.Parser;
 
 //import org.loader.glin.NetResult;
@@ -29,20 +27,7 @@ public class ListParser extends Parser {
         Result<T> result = new Result<>();
         try {
             JSONObject baseObject = JSON.parseObject(netResult.getResponse());
-            if (baseObject.containsKey("message")) {
-                result.setMessage(baseObject.getString("message"));// message always get
-            }
-
-            result.setObj(baseObject.getIntValue("code"));
-            result.ok(baseObject.getBooleanValue("ok"));
-            if (result.isOK()) { // ok true
-                if (baseObject.containsKey(mKey)) {
-                    klass = Helper.getDeepType(klass);
-                    JSONArray arr = baseObject.getJSONArray(mKey);
-                    T t = (T) baseObject.parseArray(arr.toString(), klass);
-                    result.setResult(t);
-                }
-            }
+            result = JsonParser.parseArray(baseObject, klass, mKey);
         } catch (Exception e) {
             e.printStackTrace();
             result.setMessage("数据获取失败");

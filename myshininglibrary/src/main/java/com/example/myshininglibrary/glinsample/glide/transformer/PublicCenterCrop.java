@@ -1,22 +1,22 @@
-package com.example.myshininglibrary.glide.transformer;
+package com.example.myshininglibrary.glinsample.glide.transformer;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 /**
  * Created by qibin on 2016/8/10.
  */
 
-public class PublicFitCenter extends FitCenter {
+public class PublicCenterCrop extends CenterCrop {
 
-    public PublicFitCenter(Context context) {
+    public PublicCenterCrop(Context context) {
         super(context);
     }
 
-    public PublicFitCenter(BitmapPool bitmapPool) {
+    public PublicCenterCrop(BitmapPool bitmapPool) {
         super(bitmapPool);
     }
 

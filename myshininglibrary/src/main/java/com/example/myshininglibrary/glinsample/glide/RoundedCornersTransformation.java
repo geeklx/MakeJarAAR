@@ -1,4 +1,4 @@
-package com.example.myshininglibrary.glide;
+package com.example.myshininglibrary.glinsample.glide;
 
 /**
  * Copyright (C) 2015 Wasabeef
