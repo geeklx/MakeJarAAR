@@ -13,4 +13,7 @@ public class ConstantNetUtil {
     public static final String IOT_VERSION = "v2/";
     public static final String URL_IOT = SERVER_IOT + IOT_VERSION;
     public static final String URL_USER = SERVER_IOT + IOT_VERSION;
+
+    //juhe
+    public static final String SERVER_JUHE = "http://v.juhe.cn/";//域名
 }

@@ -1,4 +1,4 @@
-package com.example.myshininglibrary.glinsample.netease;
+package com.example.myshininglibrary.glinsample.juhenet;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -6,25 +6,19 @@ import com.example.myshininglibrary.glin.NetResult;
 import com.example.myshininglibrary.glin.Result;
 import com.example.myshininglibrary.glin.parser.Parser;
 
-
 /**
- * <p>function: </p>
- * <p>description:  </p>
- * <p>history:  1. 2016/12/19</p>
- * <p>Author: qibin</p>
- * <p>modification:</p>
+ * Created by shining on 2017/2/9 0009.
  */
-public class NeteaseObjectParser extends Parser {
 
+public class JuheObjectParser extends Parser {
     @Override
     public <T> Result<T> parse(Class<T> klass, NetResult netResult) {
-        Result<T> result = new Result<>();
-
+        Result<T> result = new Result<T>();
         try {
             JSONObject baseObject = JSON.parseObject(netResult.getResponse());
-            result.setCode(baseObject.getIntValue("code"));
-            result.setObj(baseObject.getBoolean("hasMore"));
-            result.ok(result.getCode() == 200);
+            result.setCode(baseObject.getIntValue("error_code"));
+            result.setMessage(baseObject.getString("reason"));
+            result.ok(result.getCode() == 0);
 
             T res = JSON.parseObject(netResult.getResponse(), klass);
             result.setResult(res);
@@ -33,7 +27,6 @@ public class NeteaseObjectParser extends Parser {
             e.printStackTrace();
             result.ok(false);
         }
-
         return result;
     }
 }

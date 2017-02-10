@@ -5,12 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.myshininglibrary.glinsample.glide.GlideOptions;
-import com.example.myshininglibrary.glinsample.glide.GlideUtil;
 import com.example.myshininglibrary.glin.Callback;
 import com.example.myshininglibrary.glin.Result;
+import com.example.myshininglibrary.glinsample.glide.GlideOptions;
+import com.example.myshininglibrary.glinsample.glide.GlideUtil;
+import com.example.myshininglibrary.glinsample.juhenet.JuheNet;
 import com.example.myshininglibrary.glinsample.net.Net;
 import com.example.shining.makejaraar.api.DemoApi;
+import com.example.shining.makejaraar.api.JuheApi;
+import com.example.shining.makejaraar.domain.DemoJuheModel;
 import com.example.shining.makejaraar.domain.DemoModel;
 import com.example.shining.makejaraar.domain.DemoModel_item;
 import com.example.shining.makejaraar.domain.DemoModel_list;
@@ -39,13 +42,19 @@ public class MainActivity extends AppCompatActivity {
         GlideOptions glideOptions = new GlideOptions(R.drawable.pic_head, R.drawable.pic_head, 300);
         GlideUtil.display(MainActivity.this, iv1, "http://img0.bdstatic.com/img/image/touxiang01.jpg", glideOptions);
 //        GlideUtil.display(MainActivity.this, iv1, "http://img0.bdstatic.com/img/image/touxiang01.jpg", GlideOptionsFactory.get(GlideOptionsFactory.Type.RADIUS));
-        doNewWork("id");
+//        doNewWork("id");
+        doNetWork_juhe("shehui","03972d8ebd2a40194a80fa019b314fa3");
     }
 
+    /**
+     * 根据后台JSON格式协议解析的请求方式
+     * @param user_id
+     * @JSON
+     */
     private void doNewWork(String user_id) {
+        Net.getInstance().get().cancel(getClass().getName() + "MainActivityTAG");
         MaterialProgressLoadingUtil.showProgressDialog(this, "加载中....");
         DemoParams p = new DemoParams(user_id);
-//        Net.getInstance().get().cancel(getClass().getName() + "MainActivityTAG");
         Net.build(DemoApi.class,
                 getClass().getName() + "MainActivityTAG").getDemoModel(ParamsUtils.just(null)).enqueue(new Callback<DemoWeatherModel>() {
             @Override
@@ -77,4 +86,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * 直接根据地质拼接键值对解析的请求方式
+     * @param type
+     * @param key
+     */
+    private void doNetWork_juhe(String type, String key) {
+        JuheNet.getsInstance().get().cancel(getClass().getName() + "MainActivityTAG_JUHE");
+//        String params = "{\"type\":\"" + type + "\",\"key\":\"" + key + "\"}";
+        JuheNet.build(JuheApi.class,getClass().getName() + "MainActivityTAG_JUHE").getList(type, key).enqueue(new Callback<DemoJuheModel>() {
+            @Override
+            public void onResponse(Result<DemoJuheModel> result) {
+                if (!result.isOK()){
+                    return;
+                }
+                DemoJuheModel djm = result.getResult();
+                if (djm!=null){
+                    tv_context1.setText(djm.getResult().getStat());
+                }
+            }
+        });
+    }
+
+
+
 }

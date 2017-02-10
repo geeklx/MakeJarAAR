@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
 
 import com.example.myshininglibrary.glinsample.glide.GlideOptionsFactory;
+import com.example.myshininglibrary.glinsample.juhenet.JuheNet;
 import com.example.myshininglibrary.glinsample.net.Net;
 import com.example.myshininglibrary.utilslib.app.MyLogUtil;
 import com.example.myshininglibrary.utilslib.data.SpUtils;
@@ -43,6 +44,8 @@ public class DemoApplication extends MultiDexApplication {
         Net.config(ConstantNetUtil.URL_IOT,
                 Environment.getExternalStorageDirectory() + ConstantUtil.DIR_DATA_CACHE,
                 new ResultInterceptor());
+        JuheNet.config(ConstantNetUtil.SERVER_JUHE,
+                Environment.getExternalStorageDirectory() + ConstantUtil.DIR_DATA_CACHE);
 //        Net.config(ConstantNetUtil.URL_IOT, new ResultInterceptor());
         //初始化Glidebufen
         GlideOptionsFactory.init(this, R.mipmap.ic_launcher);
